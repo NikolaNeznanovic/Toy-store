@@ -1,0 +1,32 @@
+@if (toys.length > 0) {
+  <div class="card-wrapper">
+    @for (toy of toys; track $index) {
+      <mat-card class="toy-card" appearance="outlined">
+        <img mat-card-image [src]="toy.imageUrl" [alt]="toy.name">
+
+        <mat-card-content class="card-content">
+          <mat-card-title>
+            <strong class="title">{{ toy.type?.name || toy.type }}</strong>
+          </mat-card-title>
+          <mat-card-subtitle>Cena: {{ toy.price }}</mat-card-subtitle>
+          <p>{{ toy.description }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <a [routerLink]="['/details', toy.toyId]" mat-button>
+             <mat-icon fontIcon="description"></mat-icon>
+                Details
+          </a>
+          @if (authService.getActiveUser()) {
+            <a [routerLink]="['/details', toy.toyId, 'order']" mat-button>
+                <mat-icon fontIcon="shopping_cart"></mat-icon>
+                Order now
+            </a>
+          }
+        </mat-card-actions>
+    </mat-card>
+    }
+  </div>
+}
+
+<router-outlet></router-outlet>

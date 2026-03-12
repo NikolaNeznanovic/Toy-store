@@ -1,0 +1,21 @@
+<div class="toys-container">
+  <mat-card *ngFor="let toy of toys" class="toy-card">
+    <mat-card-content>
+      <img [src]="toy.imageUrl || 'assets/default-toy.png'" class="toy-img" alt="{{toy.name}}">
+      <h2>{{ toy.name }}</h2>
+      <p>{{ toy.price }} RSD</p>
+    </mat-card-content>
+    <mat-card-actions>
+            <a [routerLink]="['/details', toy.toyId]" mat-button>
+             <mat-icon fontIcon="description"></mat-icon>
+                Details
+          </a>
+
+      <a [routerLink]="['/details', toy.toyId, 'order']" mat-button>
+        <mat-icon fontIcon="shopping_cart"></mat-icon>
+        Order now
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<router-outlet></router-outlet>
