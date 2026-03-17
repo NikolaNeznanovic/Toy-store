@@ -1,10 +1,11 @@
 <div class="user-container" *ngIf="activeUser; else loading">
-  
-  
-  <mat-card class="user-card">
+
+  <!-- LEVA STRANA -->
+  <mat-card class="user-card left-card">
     <mat-card-header>
-      <h2>User Profile</h2>
+      <h2>User Details</h2>
     </mat-card-header>
+
     <mat-card-content>
       <mat-form-field class="full-width">
         <mat-label>First Name</mat-label>
@@ -33,6 +34,7 @@
         </mat-select>
       </mat-form-field>
     </mat-card-content>
+
     <mat-card-actions>
       <button mat-raised-button color="primary" (click)="updateUser()">
         <mat-icon>save</mat-icon> Save Changes
@@ -40,48 +42,54 @@
     </mat-card-actions>
   </mat-card>
 
-  
-  <mat-card class="user-card">
-    <mat-card-header>
-      <h2>General Information</h2>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="user-info">
-        <img [src]="getAvatarUrl()" class="user-img">
-        <div>
-          <p><strong>Email:</strong> {{activeUser.email}}</p>
+  <!-- DESNA STRANA -->
+  <div class="right-side">
+
+    <mat-card class="user-card">
+      <mat-card-header>
+        <h2>General Information</h2>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="user-info">
+          <img [src]="getAvatarUrl()" class="user-img">
+          <div>
+            <p><strong>Email:</strong> {{activeUser.email}}</p>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
 
-  
-  <mat-card class="user-card">
-    <mat-card-header>
-      <h2>Change Password</h2>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-form-field class="full-width">
-        <mat-label>Old Password</mat-label>
-        <input matInput type="password" [(ngModel)]="oldPassword">
-      </mat-form-field>
+    <mat-card class="user-card">
+      <mat-card-header>
+        <h2>Change Password</h2>
+      </mat-card-header>
 
-      <mat-form-field class="full-width">
-        <mat-label>New Password</mat-label>
-        <input matInput type="password" [(ngModel)]="newPassword">
-      </mat-form-field>
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <mat-label>Old Password</mat-label>
+          <input matInput type="password" [(ngModel)]="oldPassword">
+        </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <mat-label>Repeat Password</mat-label>
-        <input matInput type="password" [(ngModel)]="passRepeat">
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="accent" (click)="updatePassword()">
-        <mat-icon>password</mat-icon> Update Password
-      </button>
-    </mat-card-actions>
-  </mat-card>
+        <mat-form-field class="full-width">
+          <mat-label>New Password</mat-label>
+          <input matInput type="password" [(ngModel)]="newPassword">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Repeat Password</mat-label>
+          <input matInput type="password" [(ngModel)]="passRepeat">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="updatePassword()">
+          <mat-icon>password</mat-icon> Update Password
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
 
 </div>
 

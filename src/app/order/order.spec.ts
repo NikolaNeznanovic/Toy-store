@@ -9,7 +9,6 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-
 import { ToyService } from '../services/toy.service';
 import { ToyModel } from '../../models/toy.model';
 import { OrderModel } from '../../models/order.model';

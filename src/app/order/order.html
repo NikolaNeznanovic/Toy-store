@@ -11,9 +11,6 @@
 
 
     <h2>{{ toy()!.name }}</h2>
-    <p>Category: {{ toy()!.category }}</p>
-    <p>Price: {{ toy()!.price }} RSD</p>
-    <p>Stock: {{ toy()!.stock }}</p>
     <p *ngIf="toy()!.description">Description: {{ toy()!.description }}</p>
 
     <mat-form-field appearance="outline">

@@ -1,54 +1,66 @@
-
 .user-container {
     display: flex;
-    flex-direction: column;
-    align-items: center; 
+    justify-content: center;
     gap: 20px;
-    padding: 20px;
+    padding: 30px;
+    background: #f4f6f8;
 }
 
-
-.user-card {
-    width: 550px; 
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 12px;
+/* Leva kartica */
+.left-card {
+    flex: 2;
+    max-width: 600px;
 }
 
-
-.user-details {
-    height: 180px;
+/* Desna kolona */
+.right-side {
+    flex: 1;
+    max-width: 350px;
     display: flex;
-    align-items: center;
-    justify-content: center; 
+    flex-direction: column;
+    gap: 20px;
 }
 
+/* Kartice */
+.user-card {
+    width: 100%;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+}
 
+/* Input full width */
+.full-width {
+    width: 100%;
+}
+
+/* Info box */
 .user-info {
     display: flex;
     align-items: center;
     gap: 15px;
-    justify-content: start;
+    background: #f1f3f5;
+    padding: 15px;
+    border-radius: 10px;
 }
 
-
+/* Avatar */
 .user-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
     object-fit: cover;
+    background: #ddd;
 }
 
+/* Responsive */
+@media (max-width: 900px) {
+    .user-container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.full-width {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-
-
-
-
-button mat-icon {
-    margin-right: 5px;
+    .left-card,
+    .right-side {
+        max-width: 100%;
+    }
 }
