@@ -1,15 +1,15 @@
 export class Alerts {
-  // crveni alert
+  
   static error(msg: string) {
-    alert('❌ ' + msg); // možeš kasnije zameniti sa nekom lepom snackbar komponentom
+    alert('❌ ' + msg); 
   }
 
-  // zeleni alert
+
   static success(msg: string) {
-    alert('✅ ' + msg); // isto, možeš koristiti snackbar
+    alert('✅ ' + msg); 
   }
 
-  // confirm dialog sa callback funkcijom
+  
   static confirm(msg: string, callback: () => void) {
     if (confirm(msg)) {
       callback();

@@ -11,7 +11,7 @@ import { UserComponent } from './user/user';
 
 export const routes: Routes = [
   { path: '', component: Home},  
-  { path: 'about', component: About },                // početna ruta
+  { path: 'about', component: About },             
   { path: 'toys', component: ToysComponent },
   { path: 'cart', component: CartComponent },
   { path: 'details/:toyId', component: DetailsComponent },

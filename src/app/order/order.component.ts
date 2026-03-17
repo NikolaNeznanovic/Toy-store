@@ -69,7 +69,7 @@ export class OrderComponent {
     });
   }
 
-  // Funkcija za pun URL slike koja radi i ako je imageUrl undefined
+
   getImageUrl(toy: ToyModel | null | undefined): string {
     if (!toy?.imageUrl) return 'https://toy.pequla.com/img/1.png';
     return toy.imageUrl.startsWith('http')
@@ -80,7 +80,7 @@ export class OrderComponent {
   calculateTotal(): number {
     if (!this.toy() || this.toy() === null) return 0;
     let total = this.toy()!.price * (this.order.count || 1);
-    if (this.order.giftWrap) total += 50; // dodatak za gift wrap
+    if (this.order.giftWrap) total += 50; 
     return total;
   }
 
@@ -96,7 +96,7 @@ export class OrderComponent {
     const fullImageUrl = this.getImageUrl(this.toy());
 
     const item: CartItem = {
-      imageUrl: fullImageUrl, // pun URL slike
+      imageUrl: fullImageUrl, 
       toyID: this.toy()!.toyId.toString(),
       name: this.toy()!.name,
       price: this.toy()!.price,

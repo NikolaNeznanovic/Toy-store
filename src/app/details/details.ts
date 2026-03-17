@@ -124,7 +124,7 @@ export class DetailsComponent implements OnInit {
 
     alert('Uspešno ste ocenili proizvod!');
 
-    // 🆕 Sačuvaj review u localStorage
+    
     localStorage.setItem(
       'reviews_' + this.toy()!.toyId,
       JSON.stringify(this.toy()!.reviews)

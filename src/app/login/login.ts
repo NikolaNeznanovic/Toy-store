@@ -30,14 +30,14 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']); // automatski na home ako je ulogovan
+      this.router.navigate(['/']); 
     }
   }
 
   doLogin() {
     if (this.authService.login(this.email, this.password)) {
       Alerts.success('Uspesno ste se ulogovali!');
-      this.router.navigate(['/']); // Home stranica posle login-a
+      this.router.navigate(['/']); 
     } else {
       Alerts.error('Neispravan email ili lozinka!');
     }

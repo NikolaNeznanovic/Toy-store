@@ -6,13 +6,13 @@
     background: #f4f6f8;
 }
 
-/* Leva kartica */
+
 .left-card {
     flex: 2;
     max-width: 600px;
 }
 
-/* Desna kolona */
+
 .right-side {
     flex: 1;
     max-width: 350px;
@@ -21,19 +21,19 @@
     gap: 20px;
 }
 
-/* Kartice */
+
 .user-card {
     width: 100%;
     border-radius: 12px !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
 }
 
-/* Input full width */
+
 .full-width {
     width: 100%;
 }
 
-/* Info box */
+
 .user-info {
     display: flex;
     align-items: center;
@@ -43,7 +43,7 @@
     border-radius: 10px;
 }
 
-/* Avatar */
+
 .user-img {
     width: 55px;
     height: 55px;
@@ -52,7 +52,7 @@
     background: #ddd;
 }
 
-/* Responsive */
+
 @media (max-width: 900px) {
     .user-container {
         flex-direction: column;

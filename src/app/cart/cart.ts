@@ -21,7 +21,7 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService) {}
 
   ngOnInit() {
-    // ✅ Pretplata na BehaviorSubject da uvek prikazuje nove stavke
+    
     this.cartService.cart$.subscribe(items => {
       this.items = items;
     });

@@ -55,13 +55,13 @@ export class ToysComponent implements OnInit {
     }
   }
 
-  // Funkcija koja pravi ispravan URL slike
+  
   getImageUrl(toy: ToyModel): string {
-    const img = toy.imageUrl ?? 1;             // fallback na 1 ako nema
+    const img = toy.imageUrl ?? 1;             
     return `https://toy.pequla.com/img/${img}.png`;
   }
 
-  // Fallback kada slika ne postoji
+  
   onImageError(event: any) {
     event.target.src = 'https://toy.pequla.com/img/1.png';
   }
