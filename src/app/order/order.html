@@ -1,3 +1,53 @@
+<div *ngIf="toy() !== undefined; else loading" class="order-wrapper">
 
+  <div *ngIf="toy() !== null; else notfound" class="toy-card">
+
+
+    
+   <img
+      [src]="getImageUrl(toy())"
+      [alt]="toy()?.name"
+      class="order-img">
+
+
+    <h2>{{ toy()!.name }}</h2>
+    <p>Category: {{ toy()!.category }}</p>
+    <p>Price: {{ toy()!.price }} RSD</p>
+    <p>Stock: {{ toy()!.stock }}</p>
+    <p *ngIf="toy()!.description">Description: {{ toy()!.description }}</p>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Quantity</mat-label>
+      <input matInput type="number" [(ngModel)]="order.count">
+    </mat-form-field>
 
   
+   <mat-form-field appearance="outline">
+  <mat-label>Gift Wrap</mat-label>
+  <mat-select [(ngModel)]="order.giftWrap">
+    <mat-option [value]="true">Yes</mat-option>
+    <mat-option [value]="false">No</mat-option>
+  </mat-select>
+</mat-form-field>
+    
+  
+
+    <p>Total: {{ calculateTotal() }} RSD</p>
+
+    <button mat-button (click)="placeOrder()">
+      <mat-icon>shopping_cart</mat-icon>
+      Place Order
+    </button>
+
+  </div>
+</div>
+
+
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
+
+<ng-template #notfound>
+  <p>Toy not found.</p>
+</ng-template>

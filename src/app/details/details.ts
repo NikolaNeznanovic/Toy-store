@@ -1,82 +1,133 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToyService } from '../services/toy.service';
 import { AuthService } from '../services/auth.service';
+import { CartService } from '../services/cart.service';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { switchMap } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-details',
   standalone: true,
   imports: [
-    RouterModule,
+    CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatListModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
   ],
   templateUrl: './details.html',
   styleUrls: ['./details.css']
 })
 export class DetailsComponent implements OnInit {
-  allToys: any[] = [];
-  currentIndex: number = 0;
-  toy: any | null = null;
+  toy = signal<any | null>(null);
+  loading = signal(true);
+
+  // Za review
+  newRating: number = 5;
+  newComment: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private toyService: ToyService,
-    private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    public authService: AuthService,
+    private router: Router,
+    private cartService: CartService 
   ) {}
 
   ngOnInit() {
-    this.route.paramMap
-      .pipe(
-        switchMap(params => {
-          const toyId = Number(params.get('toyId'));
-          return this.toyService.getToys();
-        })
-      )
-      .subscribe((data: any[]) => {
-
-  this.allToys = data;   // ← OVO FALI
-
-  const toyId = Number(this.route.snapshot.paramMap.get('toyId'));
-
-  this.currentIndex = data.findIndex(t => t.toyId === toyId); // ← i ovo
-
-  const foundToy = data[this.currentIndex];
-
-  this.toy = foundToy ? { ...foundToy } : null;
-
-  if (this.toy && this.toy.imageUrl && this.toy.imageUrl.startsWith('/')) {
-    this.toy.imageUrl = 'https://toy.pequla.com' + this.toy.imageUrl;
+    const id = this.route.snapshot.paramMap.get('toyId')!;
+    this.toyService.getToyById(id).subscribe({
+      next: (data) => {
+        // 🆕 Učitaj review-e iz localStorage
+        const saved = localStorage.getItem('reviews_' + data.toyId);
+        if (saved) {
+          data.reviews = JSON.parse(saved);
+        }
+        this.toy.set(data);
+        this.loading.set(false);
+      },
+      error: (err) => {  // ⬅ ispravno
+        console.error('API error:', err);
+        this.toy.set(null);
+        this.loading.set(false);
+      }
+    });
   }
 
-  this.cdr.detectChanges();
-});
-  }
-  nextToy(){
-    if(this.currentIndex < this.allToys.length - 1){
-      this.currentIndex++;
-      this.toy = this.allToys[this.currentIndex];
+  orderToy() {
+    if (!this.authService.isLoggedIn()) {
+      alert('Morate biti ulogovani da biste poručili igračku!');
+      return;
     }
-  }
-  prevToy() {
-    if(this.currentIndex > 0){
-      this.currentIndex --;
-      this.toy = this.allToys[this.currentIndex];
-    }
+
+    const item = {
+      toyID: this.toy()!.toyId,
+      name: this.toy()!.name,
+      price: this.toy()!.price,
+      quantity: 1,
+      imageUrl: this.getImageUrl(),
+      status: "rezervisano" as "rezervisano" | "pristiglo" | "otkazano",
+      giftWrap: false
+    };
+
+    this.cartService.addToCart(item);
+    alert(`${this.toy()!.name} dodato u korpu!`);
+    this.router.navigate(['/cart']);
   }
 
-  isLoggedIn(): boolean {
-    return !!this.authService.getActiveUser();
+  getImageUrl(): string {
+    if (!this.toy() || !this.toy()!.imageUrl) {
+      return 'assets/default-toy.png';
+    }
+    return this.toy()!.imageUrl.startsWith('http')
+      ? this.toy()!.imageUrl
+      : 'https://toy.pequla.com' + this.toy()!.imageUrl;
+  }
+
+  canReview(): boolean {
+    return this.cartService.getCart().some(item =>
+      item.toyID === this.toy()?.toyId &&
+      item.status === 'pristiglo'
+    );
+  }
+
+  addReview() {
+    if (!this.toy()) return;
+
+    if (!this.toy()!.reviews) {
+      this.toy()!.reviews = [];
+    }
+
+    // 🆕 Ne dozvoli više ocena istog korisnika
+    if (this.toy()!.reviews.length > 0) {
+      alert('Već ste ocenili ovaj proizvod!');
+      return;
+    }
+
+    this.toy()!.reviews.push({
+      rating: this.newRating,
+      comment: this.newComment
+    });
+
+    this.newComment = '';
+    this.newRating = 5;
+
+    alert('Uspešno ste ocenili proizvod!');
+
+    // 🆕 Sačuvaj review u localStorage
+    localStorage.setItem(
+      'reviews_' + this.toy()!.toyId,
+      JSON.stringify(this.toy()!.reviews)
+    );
   }
 }
-

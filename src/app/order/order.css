@@ -1,0 +1,57 @@
+.order-wrapper {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.order-img {
+  width: 180px;
+  height: auto;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.toy-card h2 {
+  margin: 10px 0;
+  font-size: 22px;
+}
+
+.toy-card p {
+  margin: 6px 0;
+  color: #555;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-top: 12px;
+}
+
+button {
+  margin-top: 18px;
+  width: 100%;
+}
+
+.order-form {
+  margin-top: 18px;
+}
+
+.order-form label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.order-form input,
+.order-form select {
+  width: 100%;
+  padding: 6px 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

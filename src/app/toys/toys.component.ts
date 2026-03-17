@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+/*import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule, MatAnchor } from '@angular/material/button';
 import { MatIconModule, MatIcon } from '@angular/material/icon';
 import { ToyService } from '../services/toy.service';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 @Component({
   selector: 'app-toys',
   standalone: true,
@@ -12,7 +13,9 @@ import { ToyService } from '../services/toy.service';
     CommonModule,
     RouterModule,
     MatCardModule,
-    MatIcon
+    MatIcon,
+    MatAnchor,
+    MatProgressSpinner
 ], 
    templateUrl: './toys.html',
   styleUrls: ['./toys.css']
@@ -23,6 +26,7 @@ export class ToysComponent {
   searchText: string = '';      
 filteredToys: any[] = [];
 loading: boolean = false;
+onImageError: any;
 
 
 constructor(private toyService: ToyService) {}
@@ -51,6 +55,6 @@ constructor(private toyService: ToyService) {}
   });
 }
 
-
-*/
 }
+*/
+

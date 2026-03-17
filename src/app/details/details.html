@@ -1,59 +1,29 @@
-@if(toy) {
+<div *ngIf="!loading() && toy()" class="details-container">
+  <mat-card class="toy-detail-card">
 
-<div class="details-wrapper">
+    <!-- SLIKA IGRAČKE -->
+    <img class="toy-img" [src]="getImageUrl()" [alt]="toy()?.name" />
 
-  <!-- Slika -->
-  <mat-card class="details-card frosted-card">
     <mat-card-content>
-      <img [src]="toy?.imageUrl || 'assets/default-toy.png'" class="details-img">
-    </mat-card-content>
-  </mat-card>
+      <h2>{{toy()?.name}}</h2>
 
-  <!-- Detalji -->
-  <mat-card class="details-card frosted-card">
-    <mat-card-content>
-      <h1 class="toy-name">{{ toy?.name }}</h1>
-      <p class="toy-description">{{ toy?.description }}</p>
-      <p class="toy-target">Ciljna grupa: {{ toy?.targetGroup }}</p>
-      <p class="toy-date">Datum proizvodnje: {{ toy?.productionDate }}</p>
-      <p class="toy-price">Cena: {{ toy?.price }} RSD</p>
-
-      <a [routerLink]="['/details', toy?.toyId, 'order']" mat-button>
-        <mat-icon>shopping_cart</mat-icon>
-        Order now
-      </a>
+      <p><b>Opis:</b> {{toy()?.description}}</p>
+      <p><b>Tip:</b> {{ toy()?.type?.name }}</p>
+      <p><b>Uzrast:</b> {{ toy()?.ageGroup?.name }}</p>
+      <p><b>Ciljna grupa:</b> {{toy()?.targetGroup}}</p>
+      <p><b>Datum proizvodnje:</b> {{toy()?.productionDate}}</p>
+      <p><b>Cena:</b> {{toy()?.price}} RSD</p>
+     
+        
 
     </mat-card-content>
 
-    @if(isLoggedIn()) {
-      <mat-card-actions>
-        <a [routerLink]="['/details', toy?.toyId, 'order']" class="button-gradient">
-          <mat-icon>shopping_cart</mat-icon>
-          Rezerviši
-        </a>
-      </mat-card-actions>
-    }
+    
 
+    <mat-card-actions>
+      <button mat-button (click)="orderToy()">
+        <mat-icon>shopping_cart</mat-icon> Order
+      </button>
+    </mat-card-actions>
   </mat-card>
-
 </div>
-
-<!-- Navigacija -->
-<div class="toy-navigation">
-  <button mat-icon-button (click)="prevToy()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-
-  <button mat-icon-button (click)="nextToy()">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
-
-} @else {
-
-<div class="loading-container">
-  <mat-spinner></mat-spinner>
-  <p>Učitavanje podataka...</p>
-</div>
-
-}

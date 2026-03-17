@@ -1,32 +1,112 @@
-@if (toys.length > 0) {
-  <div class="card-wrapper">
-    @for (toy of toys; track $index) {
-      <mat-card class="toy-card" appearance="outlined">
-        <img mat-card-image [src]="toy.imageUrl" [alt]="toy.name">
+@if(filteredToys().length > 0) {
 
-        <mat-card-content class="card-content">
-          <mat-card-title>
-            <strong class="title">{{ toy.type?.name || toy.type }}</strong>
-          </mat-card-title>
-          <mat-card-subtitle>Cena: {{ toy.price }}</mat-card-subtitle>
-          <p>{{ toy.description }}</p>
-        </mat-card-content>
+<div class="filters">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [(ngModel)]="search" (keyup)="filter()">
+  </mat-form-field>
 
-        <mat-card-actions>
-            <a [routerLink]="['/details', toy.toyId]" mat-button>
-             <mat-icon fontIcon="description"></mat-icon>
-                Details
-          </a>
-          @if (authService.getActiveUser()) {
-            <a [routerLink]="['/details', toy.toyId, 'order']" mat-button>
-                <mat-icon fontIcon="shopping_cart"></mat-icon>
-                Order now
-            </a>
-          }
-        </mat-card-actions>
-    </mat-card>
-    }
-  </div>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input matInput type="text" [(ngModel)]="description" (keyup)="filter()">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select [(ngModel)]="type" (ngModelChange)="filter()">
+      <mat-option value="">All Types</mat-option>
+      @for (t of getTypes(); track t) {
+        <mat-option [value]="t">{{t}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Age group</mat-label>
+    <mat-select [(ngModel)]="age" (ngModelChange)="filter()">
+      <mat-option value="">All Ages</mat-option>
+      @for (a of getAges(); track a) {
+        <mat-option [value]="a">{{a}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Target group</mat-label>
+    <mat-select [(ngModel)]="target" (ngModelChange)="filter()">
+      <mat-option value="">All</mat-option>
+      @for (t of getTargets(); track t) {
+        <mat-option [value]="t">{{t}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Production Year</mat-label>
+    <mat-select [(ngModel)]="productionYear" (ngModelChange)="filter()">
+      <mat-option value="">All</mat-option>
+      <mat-option value="2023">2023</mat-option>
+      <mat-option value="2024">2024</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Min price</mat-label>
+    <input matInput type="number" [(ngModel)]="minPrice" (keyup.enter)="filter()">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Max price</mat-label>
+    <input matInput type="number" [(ngModel)]="maxPrice" (keyup.enter)="filter()">
+  </mat-form-field>
+</div>
+
+<div class="toy-container">
+  @for (t of filteredToys(); track $index) {
+
+  <mat-card class="toy-card">
+    <img mat-card-image [src]="getImageUrl(t)" [alt]="t.name" (error)="t.imageUrl='/img/1.png'">
+
+    <mat-card-content>
+      <h2>{{t.name}}</h2>
+      <p>{{t.price}} RSD</p>
+
+      <!-- ⭐ ZVEZDICE -->
+      <div class="rating-wrapper">
+        @for (i of [1,2,3,4,5]; track i) {
+          <mat-icon color="warn" style="cursor:pointer" (click)="rateToy(t, i)">
+            {{ i <= getRating(t) ? 'star' : 'star_border' }}
+          </mat-icon>
+        }
+      </div>
+
+      
+      <small>
+        {{ getRating(t) }} Ocena
+      </small>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a [routerLink]="['/details', t.toyId]" matButton>
+        <mat-icon fontIcon="description"></mat-icon> Details
+      </a>
+
+      @if(authService.isLoggedIn()) {
+        <a [routerLink]="['/details', t.toyId, 'order']" matButton>
+          <mat-icon fontIcon="shopping_cart"></mat-icon> Order
+        </a>
+      }
+    </mat-card-actions>
+
+  </mat-card>
+
+  }
+</div>
+
 }
-
-<router-outlet></router-outlet>
+@else {
+<div class="no-toys-container">
+  <p>{{ noToysMessage }}</p>
+  <button mat-raised-button color="primary" (click)="goHome()">Back to Home</button>
+</div>
+}

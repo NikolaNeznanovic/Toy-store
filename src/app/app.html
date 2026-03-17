@@ -1,31 +1,73 @@
-<div class="navbar">
 <mat-toolbar color="primary">
-
-  <span class="logo"><strong>Toy-store</strong></span>
-
+  <span><strong>Toy store</strong></span>
   <span class="spacer"></span>
 
-  <a routerLink="/home" mat-button>
-    <mat-icon fontIcon="home"></mat-icon> Home
-  </a>
+ 
+  <div class="desktop-nav">
+    <a routerLink="/" mat-button>
+      <mat-icon>home</mat-icon> Home
+    </a>
+    <a routerLink="/about" mat-button>
+      <mat-icon>info</mat-icon> About
+    </a>
 
-  <a routerLink="/cart" mat-button>
-    <mat-icon fontIcon="shopping_cart"></mat-icon> Shopping Cart
-  </a>
+    <ng-container *ngIf="authService.isLoggedIn(); else loginLink">
+      <a routerLink="/cart" mat-button>
+        <mat-icon>shopping_cart</mat-icon> Cart
+      </a>
+      <a routerLink="/user" mat-button>
+        <mat-icon>admin_panel_settings</mat-icon> Account
+      </a>
+      <button mat-button (click)="doLogout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </ng-container>
 
-  <a routerLink="/toys" mat-button>
-    <mat-icon fontIcon="category"></mat-icon> Toys
-  </a>
+    <ng-template #loginLink>
+      <a routerLink="/login" mat-button>
+        <mat-icon>login</mat-icon> Login
+      </a>
+    </ng-template>
+  </div>
 
-  <a routerLink="/profile" mat-button>
-    <mat-icon fontIcon="account_circle"></mat-icon> Profile
-  </a>
+ 
+  <div class="mobile-nav">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a routerLink="/" mat-menu-item>
+        <mat-icon>home</mat-icon> Home
+      </a>
+      <a routerLink="/about" mat-menu-item>
+        <mat-icon>info</mat-icon> About
+      </a>
 
-  <a routerLink="/login" mat-button>
-    <mat-icon fontIcon="login"></mat-icon> Login
-  </a>
+      <ng-container *ngIf="authService.isLoggedIn(); else mobileLogin">
+        <a routerLink="/cart" mat-menu-item>
+          <mat-icon>shopping_cart</mat-icon> Cart
+        </a>
+        <a routerLink="/user" mat-menu-item>
+          <mat-icon>admin_panel_settings</mat-icon> Account
+        </a>
+        <button mat-menu-item (click)="doLogout()">
+          <mat-icon>logout</mat-icon> Logout
+        </button>
+      </ng-container>
 
+      <ng-template #mobileLogin>
+        <a routerLink="/login" mat-menu-item>
+          <mat-icon>login</mat-icon> Login
+        </a>
+      </ng-template>
+    </mat-menu>
+  </div>
 </mat-toolbar>
+
+<div class="wrapper">
+  <router-outlet></router-outlet>
 </div>
 
-<router-outlet></router-outlet>
+<footer class="footer">
+  &copy; {{year}} Nikola Neznanović - 2023201244
+</footer>

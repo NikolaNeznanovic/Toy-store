@@ -1,0 +1,54 @@
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 20px;
+    padding: 20px;
+}
+
+
+.user-card {
+    width: 550px; 
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+}
+
+
+.user-details {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: start;
+}
+
+
+.user-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+
+
+
+button mat-icon {
+    margin-right: 5px;
+}

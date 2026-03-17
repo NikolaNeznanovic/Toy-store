@@ -1,1 +1,36 @@
-<p>cart works!</p>
+<div class="cart-wrapper">
+  <h2>Your Cart</h2>
+
+  <div *ngFor="let item of items; let i = index" class="cart-item">
+   <img
+  [src]="item.imageUrl"
+  (error)="$event.target.src='https://toy.pequla.com/img/1.png'"
+  alt="{{item.name}}"
+  class="cart-img"
+>
+    <p><strong>{{ item.name }}</strong></p>
+    <p>Price: {{ item.price }} RSD</p>
+    <p>Status: {{ item.status }}</p>
+
+    <label>
+      Quantity:
+      <input type="number" [(ngModel)]="item.quantity" min="1" (change)="updateQuantity(item.toyID, item.quantity)">
+    </label>
+
+    <button mat-button color="warn" (click)="removeItem(item.toyID)">
+      <mat-icon>delete</mat-icon> Remove
+    </button>
+
+    <hr>
+  </div>
+
+  <p *ngIf="items.length === 0" class="empty-cart">
+  Your cart is empty!</p>
+
+  <div class="cart-total" *ngIf="items.length > 0">
+    <p><strong>Total: {{ getTotal() }} RSD</strong></p>
+    <button mat-raised-button color="primary" (click)="placeOrder()">
+      <mat-icon>shopping_cart</mat-icon> Place Order
+    </button>
+  </div>
+</div>

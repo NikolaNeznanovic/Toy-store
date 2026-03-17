@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -7,12 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToyService } from '../services/toy.service';
 import { AuthService } from '../services/auth.service';
+import { ToyModel } from '../../models/toy.model';
 
 @Component({
   selector: 'app-toys',
   standalone: true,
   templateUrl: './toys.html',
-  styleUrls: ['./toys.css'], // obavezno dodaj ovde
+  styleUrls: ['./toys.css'],
   imports: [
     CommonModule,
     RouterModule,
@@ -22,24 +23,46 @@ import { AuthService } from '../services/auth.service';
     MatProgressSpinnerModule
   ]
 })
-export class ToysComponent {
-  toys: any[] = [];
+export class ToysComponent implements OnInit {
+
+  toys: ToyModel[] = [];
   loading = true;
 
-  constructor(private toyService: ToyService, public authService: AuthService) {}
+  constructor(
+    private toyService: ToyService,
+    public authService: AuthService
+  ) {}
 
-  ngOnInit() {
-    this.toyService.getToys().subscribe(data => {
-      this.toys = data;
-      this.loading = false;
+  ngOnInit(): void {
+    this.toyService.getToys().subscribe({
+      next: (data) => {
+        this.toys = data;
+        this.loading = false;
+        console.log('Toys loaded:', this.toys);
+      },
+      error: (err) => {
+        console.error('Greška pri učitavanju igračaka:', err);
+        this.loading = false;
+      }
     });
   }
 
-  addToCart(toy: any) {
-    if(this.authService.isLoggedIn()) {
+  addToCart(toy: ToyModel) {
+    if (this.authService.isLoggedIn()) {
       console.log('Dodato u korpu:', toy);
     } else {
       alert('Morate biti prijavljeni da biste dodali proizvod u korpu!');
     }
+  }
+
+  // Funkcija koja pravi ispravan URL slike
+  getImageUrl(toy: ToyModel): string {
+    const img = toy.imageUrl ?? 1;             // fallback na 1 ako nema
+    return `https://toy.pequla.com/img/${img}.png`;
+  }
+
+  // Fallback kada slika ne postoji
+  onImageError(event: any) {
+    event.target.src = 'https://toy.pequla.com/img/1.png';
   }
 }
